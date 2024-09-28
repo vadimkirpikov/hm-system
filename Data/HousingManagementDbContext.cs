@@ -17,7 +17,6 @@ public class HousingManagementDbContext(
     public DbSet<Flat> Flats { get; private set; }
     public DbSet<Lodger> Lodgers { get; private set; }
     public DbSet<Ownership> Ownerships { get; private set; }
-    public DbSet<PayerCode> PayerCodes { get; private set; }
     public DbSet<Rate> Rates { get; private set; }
     public DbSet<DepartmentPlot> DepartmentPlots { get; private set; }
 
@@ -29,7 +28,6 @@ public class HousingManagementDbContext(
     public DbSet<FlatView> FlatsView { get; private set; }
     public DbSet<LodgerView> LodgersView { get; private set; }
     public DbSet<OwnershipView> OwnershipsView { get; private set; }
-    public DbSet<PayerCodeView> PayerCodesView { get; private set; }
     public DbSet<RateView> RatesView { get; private set; }
     public DbSet<DepartmentPlotView> DepartmentPlotsView { get; private set; }
     public DbSet<RentView> RentsView { get; private set; }
@@ -38,19 +36,6 @@ public class HousingManagementDbContext(
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // RELATIONS
-        modelBuilder.Entity<PayerCode>()
-            .HasOne(payerCode => payerCode.Lodger)
-            .WithOne(lodger => lodger.PayerCode)
-            .HasForeignKey<PayerCode>(payerCode => payerCode.LodgerId);
-
-        // DEFAULT VALUES
-        modelBuilder.Entity<PayerCode>()
-            .Property(payerCode => payerCode.FeePercent)
-            .HasDefaultValue(100);
-        modelBuilder.Entity<PayerCode>()
-            .Property(payerCode => payerCode.Duty)
-            .HasDefaultValue(0);
 
 
         // CONSTRAINTS
@@ -77,11 +62,6 @@ public class HousingManagementDbContext(
         modelBuilder.Entity<Lodger>()
             .HasIndex(payerCode => payerCode.LodgerPassport)
             .IsUnique();
-        modelBuilder.Entity<PayerCode>()
-            .HasIndex(payerCode => payerCode.Duty);
-        modelBuilder.Entity<PayerCode>()
-            .HasIndex(payerCode => payerCode.LodgerId)
-            .IsUnique();
         modelBuilder.Entity<House>()
             .HasIndex(house => house.Address)
             .IsUnique();
@@ -107,9 +87,6 @@ public class HousingManagementDbContext(
             .HasNoKey();
         modelBuilder.Entity<RateView>()
             .ToView("RatesView")
-            .HasNoKey();
-        modelBuilder.Entity<PayerCodeView>()
-            .ToView("PayerCodesView")
             .HasNoKey();
         modelBuilder.Entity<DepartmentPlotView>()
             .ToView("DepartmentPlotsView")

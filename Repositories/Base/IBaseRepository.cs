@@ -10,5 +10,4 @@ public interface IBaseRepository<T, TView>
     Task UpdateAsync(T entity);
     Task DeleteAsync(T entity);
     Task<IEnumerable<TView>> GetAllAsyncOrderBy<TKey>(Expression<Func<TView, TKey>> orderBy, bool isDesc = false);
-
 }

@@ -61,10 +61,6 @@ CREATE OR REPLACE VIEW "OwnershipsView" AS
 SELECT *
 FROM "Ownerships";
 
-CREATE OR REPLACE VIEW "PayerCodesView" AS
-SELECT *
-FROM "PayerCodes";
-
 CREATE OR REPLACE VIEW "RatesView" AS
 SELECT *
 FROM "Rates";

@@ -43,9 +43,7 @@ public class BaseRepository<T, TView>(HousingManagementDbContext context) : IBas
     public async Task<IEnumerable<TView>> GetAllAsyncOrderBy<TKey>(Expression<Func<TView, TKey>> orderBy, bool isDesc = false)
     {
         if (isDesc)
-        {
             return await _dbSetView.OrderByDescending(orderBy).ToListAsync();
-        }
         return await _dbSetView.OrderBy(orderBy).ToListAsync();
     }
 }

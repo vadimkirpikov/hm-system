@@ -17,10 +17,10 @@ public class SuitabilityOfPlotsRepository(HousingManagementDbContext context): I
             && sp.Budget >= minBudget
             && sp.Budget <= maxBudget)
             .AsQueryable();
+        
         if (orderBy is null)
-        {
             return await query.ToListAsync();
-        }
+        
         query = isDesc ? query.OrderByDescending(orderBy) : query.OrderBy(orderBy);
         return await query.ToListAsync();
     }

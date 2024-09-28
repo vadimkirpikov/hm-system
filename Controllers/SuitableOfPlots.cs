@@ -1,4 +1,5 @@
 ﻿using HousingManagementService.Models.Dtos;
+using HousingManagementService.Models.Filters;
 using HousingManagementService.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

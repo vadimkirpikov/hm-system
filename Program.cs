@@ -28,7 +28,6 @@ builder.Services.AddTransient<IDataSeeder, ServicesSeeder>()
     .AddTransient<IDataSeeder, FlatsSeeder>()
     .AddTransient<IDataSeeder, LodgersSeeder>()
     .AddTransient<IDataSeeder, OwnershipsSeeder>()
-    .AddTransient<IDataSeeder, PayerCodesSeeder>()
     .AddTransient<IDataSeeder, PlotsSeeder>()
     .AddTransient<IDataSeeder, RatesSeeder>();
 
@@ -38,7 +37,6 @@ builder.Services.AddTransient<ISeedersManager, SeedersManager>();
 // BASE REPOSITORIES
 builder.Services.AddScoped<IBaseRepository<Service, ServiceView>, BaseRepository<Service, ServiceView>>()
     .AddScoped<IBaseRepository<Ownership, OwnershipView>, BaseRepository<Ownership, OwnershipView>>()
-    .AddScoped<IBaseRepository<PayerCode, PayerCodeView>, BaseRepository<PayerCode, PayerCodeView>>()
     .AddScoped<IBaseRepository<DepartmentPlot, DepartmentPlotView>, BaseRepository<DepartmentPlot, DepartmentPlotView>>();
 
 // REPOSITORIES
@@ -62,7 +60,6 @@ builder.Services.AddScoped<IDepartmentsService, DepartmentsService>()
     .AddScoped<IPlotsService, PlotsService>()
     .AddScoped<IRatesService, RatesService>()
     .AddScoped<IServicesService, ServicesService>()
-    .AddScoped<IPayerCodesService, PayerCodesService>()
     .AddScoped<IOwnershipsService, OwnershipsService>()
     .AddScoped<IDepartmentPlotsService, DepartmentPlotsService>()
     .AddScoped<IHouseAndFlatsService, HouseAndFlatsService>()

@@ -1,5 +1,6 @@
 ﻿using HousingManagementService.Models.Domain;
 using HousingManagementService.Models.Dtos;
+using HousingManagementService.Models.Filters;
 using HousingManagementService.Models.Views;
 
 namespace HousingManagementService.Services.Interfaces;

@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using HousingManagementService.Models.Dtos;
+using HousingManagementService.Models.Filters;
 using HousingManagementService.Models.Views;
 using HousingManagementService.Repositories.Interfaces;
 using HousingManagementService.Services.Interfaces;
