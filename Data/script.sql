@@ -81,11 +81,11 @@ SELECT f."Id" as "FlatId",
        h."Address",
        f."Number",
        f."TotalArea",
-       pc."FeePercent"
+       l."FeePercent"
 FROM "Flats" f
          JOIN "Houses" h ON f."HouseId" = h."Id"
          JOIN "Ownerships" o ON f."Id" = o."FlatId"
-         JOIN "PayerCodes" pc ON o."LodgerId" = pc."LodgerId";
+         JOIN "Lodgers" l ON o."LodgerId" = l."Id";
 CREATE OR REPLACE VIEW "Rents" AS
 SELECT ef."FlatId",
        ef."Address"                                                                 as "HouseAddress",
@@ -121,7 +121,7 @@ FROM "Rates" r
          JOIN "Departments" d ON r."DepartmentId" = d."Id"
          JOIN "Services" s ON d."ServiceId" = s."Id"
          JOIN "Ownerships" o on f."Id" = o."FlatId"
-         JOIN "PayerCodes" pc ON o."LodgerId" = pc."LodgerId"
+         JOIN "Lodgers" pc ON o."LodgerId" = pc."Id"
 GROUP BY 1, 2,3, 4;
 
 -- Третий отчет - участки с неполной комплектацией

@@ -3,9 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HousingManagementService.Controllers;
 
-public class BaseController<TDto, T, TView>(IBaseService<TDto,T, TView> baseBaseService) : ControllerBase
-    where TDto : class
-    where TView : class
+public class BaseController<TDto, TView>(IBaseService<TDto, TView> baseBaseService) : ControllerBase
+    where TDto : class where TView : class
 {
     [HttpPost("create")]
     public async Task<IActionResult> Create([FromBody] TDto model)
@@ -13,14 +12,6 @@ public class BaseController<TDto, T, TView>(IBaseService<TDto,T, TView> baseBase
         await baseBaseService.AddAsync(model);
         return Ok();
     }
-    [HttpGet("read")]
-    public async Task<IActionResult> Read()
-    {
-        var modelsView = await baseBaseService.GetAllAsync();
-        return Ok(modelsView);
-    }
-
-
     [HttpPut("update/{id}")]
     public async Task<IActionResult> Update([FromRoute] int id, [FromBody] TDto modelDto)
     {
@@ -35,6 +26,13 @@ public class BaseController<TDto, T, TView>(IBaseService<TDto,T, TView> baseBase
         var result = await baseBaseService.DeleteByIdAsync(id);
         if (result) return Ok();
         return NotFound();
+    }
+
+    [HttpGet("read")]
+    public async Task<IActionResult> GetAllAsync([FromQuery] string? filter = null, [FromQuery] string? orderBy = null)
+    {
+        var result = await baseBaseService.GetAllAsync(filter, orderBy);
+        return Ok(result);
     }
     
 }

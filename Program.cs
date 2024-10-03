@@ -5,12 +5,11 @@ using HousingManagementService.Data.Seeders.Implementations;
 using HousingManagementService.Data.Seeders.Interfaces;
 using HousingManagementService.Mappings;
 using HousingManagementService.Models.Domain;
+using HousingManagementService.Models.Dtos;
 using HousingManagementService.Models.Views;
 using HousingManagementService.Repositories.Base;
-using HousingManagementService.Repositories.Implementations;
-using HousingManagementService.Repositories.Interfaces;
-using HousingManagementService.Services.Implementations;
-using HousingManagementService.Services.Interfaces;
+using HousingManagementService.Repositories.Base.Abstractions;
+using HousingManagementService.Services.Base;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("PostgresConnection");
@@ -19,6 +18,9 @@ var connectionString = builder.Configuration.GetConnectionString("PostgresConnec
 builder.Services.AddEndpointsApiExplorer()
     .AddSwaggerGen()
     .AddControllers();
+builder.Services.AddScoped<ICrudRepository<Service, ServiceView>, BaseRepository<Service, ServiceView>>();
+
+builder.Services.AddScoped<IBaseService<ServiceDto, ServiceView>, BaseService<ServiceDto, Service, ServiceView>>();
 
 // SEEDERS
 builder.Services.AddTransient<IDataSeeder, ServicesSeeder>()
@@ -34,38 +36,6 @@ builder.Services.AddTransient<IDataSeeder, ServicesSeeder>()
 // SEEDERS MANAGER
 builder.Services.AddTransient<ISeedersManager, SeedersManager>();
 
-// BASE REPOSITORIES
-builder.Services.AddScoped<IBaseRepository<Service, ServiceView>, BaseRepository<Service, ServiceView>>()
-    .AddScoped<IBaseRepository<Ownership, OwnershipView>, BaseRepository<Ownership, OwnershipView>>()
-    .AddScoped<IBaseRepository<DepartmentPlot, DepartmentPlotView>, BaseRepository<DepartmentPlot, DepartmentPlotView>>();
-
-// REPOSITORIES
-builder.Services.AddScoped<IDepartmentsRepository, DepartmentsRepository>()
-    .AddScoped<IFlatsRepository, FlatsRepository>()
-    .AddScoped<IHousesRepository, HousesRepository>()
-    .AddScoped<ILodgersRepository, LodgersRepository>()
-    .AddScoped<IPlotsRepository, PlotsRepository>()
-    .AddScoped<IRatesRepository, RatesRepository>()
-    .AddScoped<IHouseAndFlatsRepository, HouseAndFlatsRepository>()
-    .AddScoped<IRentsViewRepository, RentsViewRepository>()
-    .AddScoped<IDepartmentsRevenueRepository, DepartmentsRevenueRepository>()
-    .AddScoped<ISuitabilityOfPlotsRepository, SuitabilityOfPlotsRepository>();
-
-
-// SERVICES
-builder.Services.AddScoped<IDepartmentsService, DepartmentsService>()
-    .AddScoped<IFlatsService, FlatsService>()
-    .AddScoped<IHousesService, HousesService>()
-    .AddScoped<ILodgersService, LodgersService>()
-    .AddScoped<IPlotsService, PlotsService>()
-    .AddScoped<IRatesService, RatesService>()
-    .AddScoped<IServicesService, ServicesService>()
-    .AddScoped<IOwnershipsService, OwnershipsService>()
-    .AddScoped<IDepartmentPlotsService, DepartmentPlotsService>()
-    .AddScoped<IHouseAndFlatsService, HouseAndFlatsService>()
-    .AddScoped<IRentsViewService, RentsViewService>()
-    .AddScoped<IDepartmentsRevenueService, DepartmentsRevenueService>()
-    .AddScoped<ISuitabilityOfPlotsService, SuitabilityOfPlotsService>();
 
 
 builder.Services.AddDbContext<HousingManagementDbContext>(options => options
