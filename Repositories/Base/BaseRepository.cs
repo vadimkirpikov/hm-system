@@ -13,10 +13,18 @@ public class BaseRepository<T, TView>(HousingManagementDbContext context)
     private readonly DbSet<T> _dbSet = context.Set<T>();
     private readonly DbSet<TView> _dbSetView = context.Set<TView>();
 
-    public async Task AddAsync(T entity)
+    public async Task<bool> AddAsync(T entity)
     {
-        await context.AddAsync(entity);
-        await context.SaveChangesAsync();
+        try
+        {
+            await context.AddAsync(entity);
+            await context.SaveChangesAsync();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     public async Task<T?> GetByIdAsync(int id) => await _dbSet.FindAsync(id);
@@ -31,15 +39,33 @@ public class BaseRepository<T, TView>(HousingManagementDbContext context)
         return await query.ToListAsync();
     }
 
-    public async Task UpdateAsync(T entity)
+    public async Task<bool> UpdateAsync(T entity)
     {
-        _dbSet.Update(entity);
-        await context.SaveChangesAsync();
+        try
+        {
+            _dbSet.Update(entity);
+            await context.SaveChangesAsync();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+
     }
 
-    public async Task DeleteAsync(T entity)
+    public async Task<bool> DeleteAsync(T entity)
     {
-        _dbSet.Remove(entity);
-        await context.SaveChangesAsync();
+        try
+        {
+            _dbSet.Remove(entity);
+            await context.SaveChangesAsync();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+
     }
 }

@@ -3,5 +3,5 @@
 public interface IUpdateRepository<T>
 {
     Task<T?> GetByIdAsync(int id);
-    Task UpdateAsync(T entity);
+    Task<bool> UpdateAsync(T entity);
 }

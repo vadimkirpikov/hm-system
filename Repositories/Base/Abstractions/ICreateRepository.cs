@@ -2,5 +2,5 @@
 
 public interface ICreateRepository<in T>
 {
-    Task AddAsync(T entity);
+    Task<bool> AddAsync(T entity);
 }

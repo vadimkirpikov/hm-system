@@ -10,17 +10,17 @@ public class BaseService<TDto, T, TView>(ICrudRepository<T, TView> repository, I
 {
     protected readonly IMapper Mapper = mapper;
     protected readonly ICrudRepository<T, TView> Repository = repository;
-    public async Task AddAsync(TDto modelDto)
+    public async Task<bool> AddAsync(TDto modelDto)
     {
-        await Repository.AddAsync(Mapper.Map<T>(modelDto));
+        return await Repository.AddAsync(Mapper.Map<T>(modelDto));
     }
 
     public async Task<bool> DeleteByIdAsync(int id)
     {
         var model = await Repository.GetByIdAsync(id);
         if (model is null) return false;
-        await Repository.DeleteAsync(model);
-        return true;
+        var result = await Repository.DeleteAsync(model);
+        return result;
     }
 
     public async Task<bool> UpdateAsync(int id, TDto modelDto)

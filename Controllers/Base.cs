@@ -9,8 +9,9 @@ public class BaseController<TDto, TView>(IBaseService<TDto, TView> baseBaseServi
     [HttpPost("create")]
     public async Task<IActionResult> Create([FromBody] TDto model)
     {
-        await baseBaseService.AddAsync(model);
-        return Ok();
+        var result = await baseBaseService.AddAsync(model);
+        if (result) return Ok();
+        return NotFound();
     }
     [HttpPut("update/{id}")]
     public async Task<IActionResult> Update([FromRoute] int id, [FromBody] TDto modelDto)

@@ -3,7 +3,7 @@ using HousingManagementService.Models.Views;
 using HousingManagementService.Services.Base;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HousingManagementService.Controllers;
+namespace HousingManagementService.Controllers.DerivedFromBase;
 
 [ApiController]
 [Route("services")]

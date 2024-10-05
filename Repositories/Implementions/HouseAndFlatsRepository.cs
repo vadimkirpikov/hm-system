@@ -1,12 +1,14 @@
 ﻿using HousingManagementService.Data;
 using HousingManagementService.Models.Domain;
+using HousingManagementService.Models.Dtos;
+using HousingManagementService.Models.Views;
 using HousingManagementService.Repositories.Base.Abstractions;
 using HousingManagementService.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace HousingManagementService.Repositories.Implementions;
 
-public class HouseAndFlatsRepository(HousingManagementDbContext context, ICreateRepository<House> housesRepository, IBulkInsertRepository<Flat> flatsRepository): IHouseAndFlatsRepository
+public class HouseAndFlatsRepository(HousingManagementDbContext context, ICrudRepository<House, HouseView> housesRepository, IBulkInsertRepository<Flat> flatsRepository): IHouseAndFlatsRepository
 {
     public async Task AddHouseWithFlatsAsync(House house, List<Flat> flats)
     {

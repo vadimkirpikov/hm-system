@@ -2,5 +2,5 @@
 
 public interface IDeleteRepository<in T>
 {
-    Task DeleteAsync(T entity);
+    Task<bool> DeleteAsync(T entity);
 }

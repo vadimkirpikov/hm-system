@@ -65,6 +65,10 @@ CREATE OR REPLACE VIEW "RatesView" AS
 SELECT *
 FROM "Rates";
 
+CREATE OR REPLACE VIEW "OwnershipsView" AS
+SELECT o."FlatId", l."LodgerPassport"
+FROM "Ownerships" o
+         JOIN "Lodgers" l ON l."Id" = o."LodgerId";
 --  
 
 -- Отчет 1, Квартплата, последнее представление - содержимое отчета, первые 2 - вспомогательные
@@ -112,7 +116,7 @@ GROUP BY dp."PlotId";
 CREATE OR REPLACE VIEW "DepartmentsRevenue" AS
 SELECT r."DepartmentId",
        d."Name"                                                                                           as "DepartmentName",
-       s."Id" AS "ServiceId",
+       s."Id"                                                                                             AS "ServiceId",
        s."Name"                                                                                           as "ServiceName",
        count(f."Id")                                                                                      as "FlatsCount",
        sum((r."ConstantPricePerMonth" + r."PricePerSquareMeter" * f."TotalArea") * pc."FeePercent" / 100) as "Revenue"
@@ -122,7 +126,7 @@ FROM "Rates" r
          JOIN "Services" s ON d."ServiceId" = s."Id"
          JOIN "Ownerships" o on f."Id" = o."FlatId"
          JOIN "Lodgers" pc ON o."LodgerId" = pc."Id"
-GROUP BY 1, 2,3, 4;
+GROUP BY 1, 2, 3, 4;
 
 -- Третий отчет - участки с неполной комплектацией
 CREATE OR REPLACE VIEW "SuitabilityOfPlots" AS
