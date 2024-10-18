@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace HousingManagementService.Repositories.Base;
 
 public class BaseRepository<T, TView>(HousingManagementDbContext context)
-    : ICrudRepository<T, TView>
+    : ReadRepository<TView>(context), ICrudRepository<T, TView>
     where T : class where TView : class
 {
     private readonly DbSet<T> _dbSet = context.Set<T>();
@@ -17,8 +17,8 @@ public class BaseRepository<T, TView>(HousingManagementDbContext context)
     {
         try
         {
-            await context.AddAsync(entity);
-            await context.SaveChangesAsync();
+            await Context.AddAsync(entity);
+            await Context.SaveChangesAsync();
             return true;
         }
         catch
@@ -28,23 +28,13 @@ public class BaseRepository<T, TView>(HousingManagementDbContext context)
     }
 
     public async Task<T?> GetByIdAsync(int id) => await _dbSet.FindAsync(id);
-
-    public async Task<IEnumerable<TView>> GetAllFilteredAsync(string? filter = null, string? sortBy = null)
-    {
-        var query = _dbSetView.AsQueryable();
-        if (!string.IsNullOrEmpty(filter))
-            query = query.Where(filter);
-        if (!string.IsNullOrEmpty(sortBy))
-            query = query.OrderBy(sortBy);
-        return await query.ToListAsync();
-    }
-
+    
     public async Task<bool> UpdateAsync(T entity)
     {
         try
         {
             _dbSet.Update(entity);
-            await context.SaveChangesAsync();
+            await Context.SaveChangesAsync();
             return true;
         }
         catch
@@ -59,7 +49,7 @@ public class BaseRepository<T, TView>(HousingManagementDbContext context)
         try
         {
             _dbSet.Remove(entity);
-            await context.SaveChangesAsync();
+            await Context.SaveChangesAsync();
             return true;
         }
         catch

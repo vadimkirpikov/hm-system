@@ -7,5 +7,4 @@ public class RateDto
     public int DepartmentId { get; set; }
     public int ConstantPricePerMonth { get; set; }
     public int PricePerSquareMeter { get; set; }
-    public int PricePerUnit { get; set;}
 }

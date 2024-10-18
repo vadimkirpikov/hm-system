@@ -1,7 +1,7 @@
 ﻿using HousingManagementService.Services.Base;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HousingManagementService.Controllers;
+namespace HousingManagementService.Controllers.Base;
 
 public class BaseController<TDto, TView>(IBaseService<TDto, TView> baseBaseService) : ControllerBase
     where TDto : class where TView : class

@@ -65,7 +65,7 @@ CREATE OR REPLACE VIEW "RatesView" AS
 SELECT *
 FROM "Rates";
 
-CREATE OR REPLACE VIEW "OwnershipsView" AS
+CREATE OR REPLACE VIEW "OwnershipsView2" AS
 SELECT o."FlatId", l."LodgerPassport"
 FROM "Ownerships" o
          JOIN "Lodgers" l ON l."Id" = o."LodgerId";
@@ -79,6 +79,7 @@ SELECT h."Id",
 FROM "Houses" h
          JOIN "Rates" r ON h."Id" = r."HouseId"
 GROUP BY h."Id";
+
 CREATE OR REPLACE VIEW "ExtensionsForFlats" AS
 SELECT f."Id" as "FlatId",
        h."Id" AS "HouseId",
@@ -90,6 +91,7 @@ FROM "Flats" f
          JOIN "Houses" h ON f."HouseId" = h."Id"
          JOIN "Ownerships" o ON f."Id" = o."FlatId"
          JOIN "Lodgers" l ON o."LodgerId" = l."Id";
+
 CREATE OR REPLACE VIEW "Rents" AS
 SELECT ef."FlatId",
        ef."Address"                                                                 as "HouseAddress",

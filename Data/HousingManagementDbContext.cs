@@ -106,12 +106,13 @@ public class HousingManagementDbContext(
         seedersManager.Seed(modelBuilder);
     }
 
-    public void DatabaseEnsureCreated()
+    public bool DatabaseEnsureCreated()
     {
         if (Database.EnsureCreated())
         {
             var sqlQuery = File.ReadAllText("/app/Data/script.sql");
             Database.ExecuteSqlRaw(sqlQuery);
         }
+        return true;
     }
 }

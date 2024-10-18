@@ -1,4 +1,5 @@
-﻿using HousingManagementService.Models.Dtos;
+﻿using HousingManagementService.Controllers.Base;
+using HousingManagementService.Models.Dtos;
 using HousingManagementService.Models.Views;
 using HousingManagementService.Services.Base;
 using Microsoft.AspNetCore.Mvc;

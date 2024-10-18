@@ -8,7 +8,7 @@ namespace HousingManagementService.Controllers;
 [Route("house-and-flats")]
 public class HouseAndFlatsController(IHouseAndFlatsService houseAndFlatsService): ControllerBase
 {
-    [HttpPost("insert")]
+    [HttpPost("create")]
     public async Task<IActionResult> AddHouseWithFlatsAsync([FromBody] HouseWithFlatsDto houseWithFlatsDto)
     {
         await houseAndFlatsService.AddHouseWithFlatsAsync(houseWithFlatsDto.HouseDto, houseWithFlatsDto.FlatsDto);
