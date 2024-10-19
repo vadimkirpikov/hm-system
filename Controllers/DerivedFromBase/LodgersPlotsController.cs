@@ -6,5 +6,5 @@ using Microsoft.AspNetCore.Mvc;
 namespace HousingManagementService.Controllers.DerivedFromBase;
 
 [ApiController]
-[Route("suitability-of-plots")]
-public class SuitabilitiesOfPlotsController(IReadReportService<SuitabilityOfPlot> readReportService) : BaseReportsController<SuitabilityOfPlot>(readReportService);
+[Route("lodger-plots")]
+public class LodgersPlotsController(IReadReportService<LodgerPlot> readReportService) : BaseReportsController<LodgerPlot>(readReportService);

@@ -35,7 +35,7 @@ builder.Services.AddScoped<ICrudRepository<Service, ServiceView>, BaseRepository
     .AddScoped<ICrudRepository<DepartmentPlot, DepartmentPlotView>, BaseRepository<DepartmentPlot, DepartmentPlotView>>()
     .AddScoped<ICrudRepository<Lodger, LodgerView>, BaseRepository<Lodger, LodgerView>>()
     .AddScoped<IReadRepository<DepartmentRevenue>, ReadRepository<DepartmentRevenue>>()
-    .AddScoped<IReadRepository<SuitabilityOfPlot>, ReadRepository<SuitabilityOfPlot>>()
+    .AddScoped<IReadRepository<LodgerPlot>, ReadRepository<LodgerPlot>>()
     .AddScoped<IReadRepository<RentView>, ReadRepository<RentView>>();
 
 
@@ -51,7 +51,7 @@ builder.Services.AddScoped<IHouseAndFlatsRepository, HouseAndFlatsRepository>()
     .AddScoped<IBaseService<DepartmentPlotDto, DepartmentPlotView>, BaseService<DepartmentPlotDto, DepartmentPlot, DepartmentPlotView>>()
     .AddScoped<IBaseService<LodgerDto, LodgerView>, BaseService<LodgerDto, Lodger, LodgerView>>()
     .AddScoped<IReadReportService<DepartmentRevenue>, ReadReportService<DepartmentRevenue>>()
-    .AddScoped<IReadReportService<SuitabilityOfPlot>, ReadReportService<SuitabilityOfPlot>>()
+    .AddScoped<IReadReportService<LodgerPlot>, ReadReportService<LodgerPlot>>()
     .AddScoped<IReadReportService<RentView>, ReadReportService<RentView>>();
 
 // SEEDERS

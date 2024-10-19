@@ -2,6 +2,7 @@
 using System.Linq.Expressions;
 using HousingManagementService.Data;
 using HousingManagementService.Repositories.Base.Abstractions;
+using HousingManagementService.Repositories.Implementions;
 using Microsoft.EntityFrameworkCore;
 
 namespace HousingManagementService.Repositories.Base;

@@ -1,9 +1,9 @@
-﻿using HousingManagementService.Data;
+﻿using System.Linq.Dynamic.Core;
+using HousingManagementService.Data;
 using HousingManagementService.Repositories.Base.Abstractions;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Dynamic.Core;
 
-namespace HousingManagementService.Repositories;
+namespace HousingManagementService.Repositories.Implementions;
 
 public class ReadRepository<TView>(HousingManagementDbContext context) : IReadRepository<TView> where TView : class
 {

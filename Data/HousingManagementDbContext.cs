@@ -32,7 +32,7 @@ public class HousingManagementDbContext(
     public DbSet<DepartmentPlotView> DepartmentPlotsView { get; private set; }
     public DbSet<RentView> RentsView { get; private set; }
     public DbSet<DepartmentRevenue> DepartmentsRevenue { get; private set; }
-    public DbSet<SuitabilityOfPlot> SuitabilityOfPlots { get; private set; }
+    public DbSet<LodgerPlot> LodgerPlots { get; private set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -41,22 +41,11 @@ public class HousingManagementDbContext(
         // CONSTRAINTS
         const string passportIsDigitSql = "\"LodgerPassport\" SIMILAR TO '[0-9]{10}'";
         const string passportIsDigitConstraint = "passport_is_digit";
-
-        // const string houseCheckSql = @"""HouseId"" IN (SELECT ""Id""
-        //                                              FROM ""Houses""
-        //                                              WHERE ""PlotId"" IN (SELECT dp.""PlotId""
-        //                                                                 FROM ""DepartmentPlots"" dp
-        //                                                                 WHERE ""DepartmentId"" = ""Rates"".""DepartmentId""))";
-        // const string houseCheckConstraint = "house_check";
-        //
+        
 
         modelBuilder.Entity<Lodger>()
             .ToTable(lodgers => lodgers
                 .HasCheckConstraint(passportIsDigitConstraint, passportIsDigitSql));
-        // modelBuilder.Entity<Rate>()
-        //     .ToTable(rate => rate
-        //         .HasCheckConstraint(houseCheckConstraint, houseCheckSql));
-        
 
         // INDEXES
         modelBuilder.Entity<Lodger>()
@@ -97,8 +86,8 @@ public class HousingManagementDbContext(
         modelBuilder.Entity<RentView>()
             .ToView("Rents")
             .HasNoKey();
-        modelBuilder.Entity<SuitabilityOfPlot>()
-            .ToView("SuitabilityOfPlots")
+        modelBuilder.Entity<LodgerPlot>()
+            .ToView("LodgersPlots")
             .HasNoKey();
         modelBuilder.Entity<DepartmentRevenue>()
             .ToView("DepartmentsRevenue")
