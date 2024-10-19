@@ -10,4 +10,6 @@ public class LodgerView
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public int Age { get; set; }
+    public int FeePercent { get; set; }
+    public int Duty { get; set; }
 }

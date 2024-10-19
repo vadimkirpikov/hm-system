@@ -13,12 +13,15 @@ public class Lodger
     public string FirstName { get; set; }
     [Required]
     [MaxLength(50)]
-    public string LastName { get; set; }
-    [Required]
-    [MaxLength(50)]
     public string MiddleName { get; set; }
     [Required]
+    [MaxLength(50)]
+    public string LastName { get; set; }
     public int Age { get; set; }
-    public PayerCode? PayerCode { get; set; }
+    [Required]
+    public int FeePercent { get; set; }
+    [Required]
+    public int Duty { get; set; }
+    [Required]
     public ICollection<Ownership>? Ownerships { get; set; } = new List<Ownership>();
 }

@@ -14,7 +14,6 @@ public class ViewMapper: Profile
         CreateMap<House, HouseView>();
         CreateMap<Lodger, LodgerView>();
         CreateMap<Ownership, OwnershipView>();
-        CreateMap<PayerCode, PayerCodeView>();
         CreateMap<Plot, PlotView>();
         CreateMap<Rate, RateView>();
         CreateMap<Service, ServiceView>();

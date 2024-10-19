@@ -1,51 +1,62 @@
-﻿using System.Linq.Expressions;
+﻿using System.Linq.Dynamic.Core;
+using System.Linq.Expressions;
 using HousingManagementService.Data;
+using HousingManagementService.Repositories.Base.Abstractions;
+using HousingManagementService.Repositories.Implementions;
 using Microsoft.EntityFrameworkCore;
 
 namespace HousingManagementService.Repositories.Base;
 
-public class BaseRepository<T, TView>(HousingManagementDbContext context) : IBaseRepository<T, TView> where T: class where TView : class
+public class BaseRepository<T, TView>(HousingManagementDbContext context)
+    : ReadRepository<TView>(context), ICrudRepository<T, TView>
+    where T : class where TView : class
 {
-    protected readonly HousingManagementDbContext Context = context;
     private readonly DbSet<T> _dbSet = context.Set<T>();
     private readonly DbSet<TView> _dbSetView = context.Set<TView>();
-    public async Task AddAsync(T entity)
+
+    public async Task<bool> AddAsync(T entity)
     {
-        await Context.AddAsync(entity);
-        await Context.SaveChangesAsync();
+        try
+        {
+            await Context.AddAsync(entity);
+            await Context.SaveChangesAsync();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
     }
 
-    public async Task<T?> GetByIdAsync(int id)
-    {
-        return await _dbSet.FindAsync(id);
-    }
+    public async Task<T?> GetByIdAsync(int id) => await _dbSet.FindAsync(id);
     
-    public async Task<IEnumerable<TView>> GetAllAsync()
+    public async Task<bool> UpdateAsync(T entity)
     {
-        return await _dbSetView.ToListAsync();
+        try
+        {
+            _dbSet.Update(entity);
+            await Context.SaveChangesAsync();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+
     }
 
-    public async Task UpdateAsync(T entity)
+    public async Task<bool> DeleteAsync(T entity)
     {
-        _dbSet.Update(entity);
-        await Context.SaveChangesAsync();
-    }
-
-    public async Task DeleteAsync(T? entity)
-    {
-        if (entity is not null)
+        try
         {
             _dbSet.Remove(entity);
             await Context.SaveChangesAsync();
+            return true;
         }
-    }
-
-    public async Task<IEnumerable<TView>> GetAllAsyncOrderBy<TKey>(Expression<Func<TView, TKey>> orderBy, bool isDesc = false)
-    {
-        if (isDesc)
+        catch
         {
-            return await _dbSetView.OrderByDescending(orderBy).ToListAsync();
+            return false;
         }
-        return await _dbSetView.OrderBy(orderBy).ToListAsync();
+
     }
 }

@@ -5,10 +5,14 @@ using HousingManagementService.Data.Seeders.Implementations;
 using HousingManagementService.Data.Seeders.Interfaces;
 using HousingManagementService.Mappings;
 using HousingManagementService.Models.Domain;
+using HousingManagementService.Models.Dtos;
 using HousingManagementService.Models.Views;
+using HousingManagementService.Repositories;
 using HousingManagementService.Repositories.Base;
-using HousingManagementService.Repositories.Implementations;
+using HousingManagementService.Repositories.Base.Abstractions;
+using HousingManagementService.Repositories.Implementions;
 using HousingManagementService.Repositories.Interfaces;
+using HousingManagementService.Services.Base;
 using HousingManagementService.Services.Implementations;
 using HousingManagementService.Services.Interfaces;
 
@@ -19,6 +23,36 @@ var connectionString = builder.Configuration.GetConnectionString("PostgresConnec
 builder.Services.AddEndpointsApiExplorer()
     .AddSwaggerGen()
     .AddControllers();
+builder.Services.AddScoped<ICrudRepository<Service, ServiceView>, BaseRepository<Service, ServiceView>>()
+    .AddScoped<ICrudRepository<House, HouseView>, BaseRepository<House, HouseView>>()
+    .AddScoped<IBulkInsertRepository<Flat>, BulkInsertRepository<Flat>>()
+    .AddScoped<ICrudRepository<House, HouseView>, BaseRepository<House, HouseView>>()
+    .AddScoped<ICrudRepository<Flat, FlatView>, BaseRepository<Flat, FlatView>>()
+    .AddScoped<ICrudRepository<Plot, PlotView>, BaseRepository<Plot, PlotView>>()
+    .AddScoped<ICrudRepository<Department, DepartmentView>, BaseRepository<Department, DepartmentView>>()
+    .AddScoped<ICrudRepository<Rate, RateView>, BaseRepository<Rate, RateView>>()
+    .AddScoped<ICrudRepository<Ownership, OwnershipView>, BaseRepository<Ownership, OwnershipView>>()
+    .AddScoped<ICrudRepository<DepartmentPlot, DepartmentPlotView>, BaseRepository<DepartmentPlot, DepartmentPlotView>>()
+    .AddScoped<ICrudRepository<Lodger, LodgerView>, BaseRepository<Lodger, LodgerView>>()
+    .AddScoped<IReadRepository<DepartmentRevenue>, ReadRepository<DepartmentRevenue>>()
+    .AddScoped<IReadRepository<LodgerPlot>, ReadRepository<LodgerPlot>>()
+    .AddScoped<IReadRepository<RentView>, ReadRepository<RentView>>();
+
+
+builder.Services.AddScoped<IHouseAndFlatsRepository, HouseAndFlatsRepository>()
+    .AddScoped<IBaseService<ServiceDto, ServiceView>, BaseService<ServiceDto, Service, ServiceView>>()
+    .AddScoped<IHouseAndFlatsService, HouseAndFlatsService>()
+    .AddScoped<IBaseService<HouseDto, HouseView>, BaseService<HouseDto, House, HouseView>>()
+    .AddScoped<IBaseService<FlatDto, FlatView>, BaseService<FlatDto, Flat, FlatView>>()
+    .AddScoped<IBaseService<PlotDto, PlotView>, BaseService<PlotDto, Plot, PlotView>>()
+    .AddScoped<IBaseService<DepartmentDto, DepartmentView>, BaseService<DepartmentDto, Department, DepartmentView>>()
+    .AddScoped<IBaseService<RateDto, RateView>, BaseService<RateDto, Rate, RateView>>()
+    .AddScoped<IBaseService<OwnershipDto, OwnershipView>, BaseService<OwnershipDto, Ownership, OwnershipView>>()
+    .AddScoped<IBaseService<DepartmentPlotDto, DepartmentPlotView>, BaseService<DepartmentPlotDto, DepartmentPlot, DepartmentPlotView>>()
+    .AddScoped<IBaseService<LodgerDto, LodgerView>, BaseService<LodgerDto, Lodger, LodgerView>>()
+    .AddScoped<IReadReportService<DepartmentRevenue>, ReadReportService<DepartmentRevenue>>()
+    .AddScoped<IReadReportService<LodgerPlot>, ReadReportService<LodgerPlot>>()
+    .AddScoped<IReadReportService<RentView>, ReadReportService<RentView>>();
 
 // SEEDERS
 builder.Services.AddTransient<IDataSeeder, ServicesSeeder>()
@@ -28,47 +62,12 @@ builder.Services.AddTransient<IDataSeeder, ServicesSeeder>()
     .AddTransient<IDataSeeder, FlatsSeeder>()
     .AddTransient<IDataSeeder, LodgersSeeder>()
     .AddTransient<IDataSeeder, OwnershipsSeeder>()
-    .AddTransient<IDataSeeder, PayerCodesSeeder>()
     .AddTransient<IDataSeeder, PlotsSeeder>()
     .AddTransient<IDataSeeder, RatesSeeder>();
 
 // SEEDERS MANAGER
 builder.Services.AddTransient<ISeedersManager, SeedersManager>();
 
-// BASE REPOSITORIES
-builder.Services.AddScoped<IBaseRepository<Service, ServiceView>, BaseRepository<Service, ServiceView>>()
-    .AddScoped<IBaseRepository<Ownership, OwnershipView>, BaseRepository<Ownership, OwnershipView>>()
-    .AddScoped<IBaseRepository<PayerCode, PayerCodeView>, BaseRepository<PayerCode, PayerCodeView>>()
-    .AddScoped<IBaseRepository<DepartmentPlot, DepartmentPlotView>, BaseRepository<DepartmentPlot, DepartmentPlotView>>();
-
-// REPOSITORIES
-builder.Services.AddScoped<IDepartmentsRepository, DepartmentsRepository>()
-    .AddScoped<IFlatsRepository, FlatsRepository>()
-    .AddScoped<IHousesRepository, HousesRepository>()
-    .AddScoped<ILodgersRepository, LodgersRepository>()
-    .AddScoped<IPlotsRepository, PlotsRepository>()
-    .AddScoped<IRatesRepository, RatesRepository>()
-    .AddScoped<IHouseAndFlatsRepository, HouseAndFlatsRepository>()
-    .AddScoped<IRentsViewRepository, RentsViewRepository>()
-    .AddScoped<IDepartmentsRevenueRepository, DepartmentsRevenueRepository>()
-    .AddScoped<ISuitabilityOfPlotsRepository, SuitabilityOfPlotsRepository>();
-
-
-// SERVICES
-builder.Services.AddScoped<IDepartmentsService, DepartmentsService>()
-    .AddScoped<IFlatsService, FlatsService>()
-    .AddScoped<IHousesService, HousesService>()
-    .AddScoped<ILodgersService, LodgersService>()
-    .AddScoped<IPlotsService, PlotsService>()
-    .AddScoped<IRatesService, RatesService>()
-    .AddScoped<IServicesService, ServicesService>()
-    .AddScoped<IPayerCodesService, PayerCodesService>()
-    .AddScoped<IOwnershipsService, OwnershipsService>()
-    .AddScoped<IDepartmentPlotsService, DepartmentPlotsService>()
-    .AddScoped<IHouseAndFlatsService, HouseAndFlatsService>()
-    .AddScoped<IRentsViewService, RentsViewService>()
-    .AddScoped<IDepartmentsRevenueService, DepartmentsRevenueService>()
-    .AddScoped<ISuitabilityOfPlotsService, SuitabilityOfPlotsService>();
 
 
 builder.Services.AddDbContext<HousingManagementDbContext>(options => options
@@ -85,8 +84,20 @@ builder.Services.AddAutoMapper(typeof(DtoMapperR), typeof(ViewMapper));
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
-    var housingManagementDbContext = scope.ServiceProvider.GetRequiredService<HousingManagementDbContext>();
-    housingManagementDbContext.DatabaseEnsureCreated();
+    while (true)
+    {
+        try
+        {
+            var housingManagementDbContext = scope.ServiceProvider.GetRequiredService<HousingManagementDbContext>();
+            housingManagementDbContext.DatabaseEnsureCreated();
+            break;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
 }
 app.MapGet("/", () => Results.Redirect("/swagger/index.html"));
 app.UseSwagger();

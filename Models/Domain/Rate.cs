@@ -16,5 +16,4 @@ public class Rate
     
     public int ConstantPricePerMonth { get; set; }
     public int PricePerSquareMeter { get; set; }
-    public int PricePerUnit { get; set; }
 }

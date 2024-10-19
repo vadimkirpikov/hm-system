@@ -1,45 +1,38 @@
 ﻿using System.Linq.Expressions;
 using AutoMapper;
 using HousingManagementService.Repositories.Base;
+using HousingManagementService.Repositories.Base.Abstractions;
 
 namespace HousingManagementService.Services.Base;
 
-public class BaseService<TDto, T, TView>(IBaseRepository<T, TView> repository, IMapper mapper)
-    : IBaseService<TDto,T, TView> where TDto : class where TView : class where T : class
+public class BaseService<TDto, T, TView>(ICrudRepository<T, TView> repository, IMapper mapper)
+    : IBaseService<TDto, TView> where TDto : class where TView : class where T : class
 {
     protected readonly IMapper Mapper = mapper;
-    public async Task AddAsync(TDto modelDto)
+    protected readonly ICrudRepository<T, TView> Repository = repository;
+    public async Task<bool> AddAsync(TDto modelDto)
     {
-        await repository.AddAsync(Mapper.Map<T>(modelDto));
+        return await Repository.AddAsync(Mapper.Map<T>(modelDto));
     }
 
     public async Task<bool> DeleteByIdAsync(int id)
     {
-        var model = await repository.GetByIdAsync(id);
+        var model = await Repository.GetByIdAsync(id);
         if (model is null) return false;
-        await repository.DeleteAsync(model);
-        return true;
+        var result = await Repository.DeleteAsync(model);
+        return result;
     }
 
     public async Task<bool> UpdateAsync(int id, TDto modelDto)
     {
-        var model = await repository.GetByIdAsync(id);
+        var model = await Repository.GetByIdAsync(id);
         if (model is null) return false;
         Mapper.Map(modelDto, model);
-        await repository.UpdateAsync(model);
+        await Repository.UpdateAsync(model);
         return true;
     }
-
-    public async Task<IEnumerable<TView>> GetAllAsync()
+    public async Task<IEnumerable<TView>> GetAllAsync(string? filter=null, string? orderBy=null)
     {
-        var modelViews = await repository.GetAllAsync();
-        return modelViews;
-    }
-
-    public async Task<IEnumerable<TView>?> GetAllOrderedByAsync<TKey>(Expression<Func<TView, TKey>>? predicate, bool isDesc)
-    {
-        if (predicate is null) return null;
-        var modelViews = await repository.GetAllAsyncOrderBy(predicate, isDesc);
-        return modelViews;
+        return await Repository.GetAllFilteredAsync(filter, orderBy);
     }
 }

@@ -14,7 +14,6 @@ public class DtoMapperR: Profile
         CreateMap<HouseDto, House>();
         CreateMap<LodgerDto, Lodger>();
         CreateMap<OwnershipDto, Ownership>();
-        CreateMap<PayerCodeDto, PayerCode>();
         CreateMap<PlotDto, Plot>();
         CreateMap<RateDto, Rate>();
         CreateMap<ServiceDto, Service>();

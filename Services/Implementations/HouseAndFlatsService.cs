@@ -8,18 +8,10 @@ namespace HousingManagementService.Services.Implementations;
 
 public class HouseAndFlatsService(IHouseAndFlatsRepository houseAndFlatsRepository, IMapper mapper): IHouseAndFlatsService
 {
-    public async Task<bool> AddHouseWithFlatsAsync(HouseDto houseDto, IEnumerable<FlatDto> flatDtos)
+    public async Task AddHouseWithFlatsAsync(HouseDto houseDto, IEnumerable<FlatDto> flatDtoS)
     {
-        try
-        {
-            var house = mapper.Map<House>(houseDto);
-            var flats = mapper.Map<IEnumerable<Flat>>(flatDtos);
-            await houseAndFlatsRepository.AddHouseWithFlatsAsync(house, flats.ToList());
-            return true;
-        }
-        catch (Exception ex)
-        {
-            return false;
-        }
+        var house = mapper.Map<House>(houseDto);
+        var flats = mapper.Map<IEnumerable<Flat>>(flatDtoS);
+        await houseAndFlatsRepository.AddHouseWithFlatsAsync(house, flats.ToList());
     }
 }
